@@ -1,0 +1,12 @@
+.main-title {
+    color: rgb(35, 35, 222);
+    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+    font: monospace;
+}
+
+.main-btn {
+    width: 100%;
+    background-color: rgb(113, 121, 224);
+}

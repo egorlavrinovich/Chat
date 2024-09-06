@@ -1,0 +1,93 @@
+.chat-wallpaper {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.27);
+}
+
+.chat-header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.27);
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  padding: 2vh 0;
+  border-bottom: 1.5px solid #80808033;
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+
+  .back-btn {
+    position: absolute;
+    left: 5px;
+    scale: 1.3;
+
+    button {
+      color: #808080a6;
+    }
+  }
+
+  .room-name {
+    font-weight: 600;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: medium;
+    color: #0000007a;
+  }
+
+  .room-member {
+    font-size: smaller;
+    color: #0000007a;
+    font-weight: 600;
+  }
+}
+
+.chat-wallpaper {
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.chat-footer {
+  height: 2vh;
+
+  input {
+    min-height: 5vh;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+
+  }
+
+  .ant-input-group-addon {
+    padding: 0;
+
+    button {
+      min-width: 6vw;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+}
+
+p {
+  max-width: 255px;
+  word-wrap: break-word;
+  margin-bottom: 12px;
+  line-height: 24px;
+  position: relative;
+  padding: 8px 15px;
+  border-radius: 25px;
+}
+
+.send {
+  color: white;
+  background: #0B93F6;
+  align-self: flex-end;
+  border-bottom-right-radius: 0;
+}
+
+.receive {
+  background: #E5E5EA;
+  color: black;
+  align-self: flex-start;
+  border-bottom-left-radius: 0;
+}
+

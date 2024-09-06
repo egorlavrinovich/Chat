@@ -1,0 +1,39 @@
+
+:root {
+  --bg-color: linear-gradient(90deg, rgb(177, 178, 243), rgb(238, 203, 226));
+}
+
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-color);
+  opacity: 1;
+  margin: 0;
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    background-color: #f9f9fd;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: rgba(41, 80, 236, 0.62);
+  }
+
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    background-color: #f9f9fd;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  html, body, #root {
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.main-container {
+  min-height: 100%;
+}
