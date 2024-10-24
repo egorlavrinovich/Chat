@@ -91,3 +91,13 @@ p {
   border-bottom-left-radius: 0;
 }
 
+.msg-block {
+  display: flex;
+  line-height: normal;
+  gap: 0.8vw;
+
+  .msg-time {
+    font-size: xx-small;
+    align-self: end;
+  }
+}

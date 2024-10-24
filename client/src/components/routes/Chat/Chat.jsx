@@ -1,21 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import io from 'socket.io-client'
-import {useNavigate, useSearchParams} from "react-router-dom";
+import {useSearchParams} from "react-router-dom";
 import './chat.scss'
-import {Button, Col, Input, Row} from "antd";
-import {LeftOutlined, SendOutlined} from "@ant-design/icons";
+import {Col, Row} from "antd";
+import UserMessage from "./UserMessage.jsx";
+import Title from "./Title.jsx";
+import SendMessage from "./SendMessage.jsx";
 
-const socket = io.connect('http://localhost:5000/')
+export const socket = io.connect('http://localhost:5000/')
 
 const Chat = () => {
     const [searchParams, _] = useSearchParams()
     const [heightBlockContent, setHeightBlockContent] = useState('80vh')
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        const params = Object.fromEntries(searchParams.entries())
-        socket.emit('join', params)
-    }, [searchParams])
+    const [data, setData] = useState([])
+    const [userCount, setUserCount] = useState(1)
 
     const calculateChatHeight = () => {
         const headerHeight = document.getElementsByClassName('chat-header')[0]?.clientHeight
@@ -23,50 +21,50 @@ const Chat = () => {
         setHeightBlockContent(`calc(95vh - ${headerHeight}px - ${footerHeight}px)`)
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         calculateChatHeight()
         window.addEventListener('resize', () => calculateChatHeight())
-        socket.on('message', ({data}) => {
-            console.log(data)
-        })
         return () => window.removeEventListener('resize', () => calculateChatHeight())
     }, [])
 
+    useEffect(() => {
+        const params = Object.fromEntries(searchParams.entries())
+        socket
+            .emit('join', params)
+            .on('message', (data) => {
+                setData(data)
+                calculateUserCount(data)
+            })
+        return () => {
+            socket.disconnect()
+        }
+    }, [])
+
+    console.log(data)
+
+    const calculateUserCount = (data) => {
+        setUserCount(Object.keys(data?.reduce((acc, {userName}) => acc[userName] ? {
+                ...acc,
+                [userName]: acc[userName] + 1
+            } : {...acc, [userName]: 1}
+            , {})).length);
+    }
+
     return (
         <div className='chat-wrapper'>
+            {!socket.connected && <div>Loading...</div>}
             <Row>
                 <Col lg={4} xs={1}/>
                 <Col lg={16} xs={22}>
                     <div className='chat-header'>
-                        <div className='back-btn'><Button type='link' onClick={() => navigate('/')}
-                                                          icon={<LeftOutlined/>}/></div>
-                        <div className='room-description'>
-                            <div className='room-name'>{`Хлеборезка`}</div>
-                            <div className='room-member'>{`1 members`}</div>
-                        </div>
+                        <Title userCount={userCount}/>
                     </div>
                     <div className='chat-wallpaper' style={{height: heightBlockContent}}>
-                        <p className='send'>Hello</p>
-                        <p className='receive'>Hello</p><p className='send'>Hello</p>
-                        <p className='receive'>Hello</p><p className='send'>Hello</p>
-                        <p className='receive'>Hello</p><p className='send'>Hello</p>
-                        <p className='receive'>Hello</p><p className='send'>Hello</p>
-                        <p className='receive'>Hello</p><p className='send'>Hello</p>
-                        <p className='receive'>Hello</p><p className='send'>Hello</p>
-                        <p className='receive'>Hello</p><p className='send'>Hello</p>
-                        <p className='receive'>Hello</p><p className='send'>Hello</p>
-                        <p className='receive'>Hello</p>
+                        {data?.map((msg) => <UserMessage msg={msg}/>
+                        )}
                     </div>
                     <div className='chat-footer'>
-                        <div className='user-msg'>
-                            <Input
-                                addonAfter={
-                                    <Button
-                                        icon={<SendOutlined/>}
-                                        type='primary'>
-                                    </Button>}
-                            />
-                        </div>
+                        <SendMessage/>
                     </div>
                 </Col>
                 <Col lg={4} xs={1}/>
