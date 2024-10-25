@@ -2,9 +2,8 @@ import React, {useState} from 'react';
 import {Button, Input} from "antd";
 import {SendOutlined} from "@ant-design/icons";
 import {useSearchParams} from "react-router-dom";
-import {socket} from "./Chat.jsx";
 
-const SendMessage = () => {
+const SendMessage = ({socket}) => {
     const [searchParams, _] = useSearchParams()
     const [message, setMessage] = useState('')
 
@@ -25,7 +24,7 @@ const SendMessage = () => {
                         onClick={sendMessage}
                     >
                     </Button>}
-                placeHolder={'Введите сообщение'}
+                placeholder={'Введите сообщение'}
             />
         </div>
     );

@@ -3,7 +3,7 @@ import {Button} from "antd";
 import {LeftOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
 
-const Title = ({userCount}) => {
+const Title = ({title, userCount}) => {
     const navigate = useNavigate()
 
     return (
@@ -15,7 +15,7 @@ const Title = ({userCount}) => {
                     icon={<LeftOutlined/>}/>
             </div>
             <div className='room-description'>
-                <div className='room-name'>{`Хлеборезка`}</div>
+                <div className='room-name'>{title}</div>
                 <div className='room-member'>{`${userCount} members`}</div>
             </div>
         </>

@@ -1,24 +1,16 @@
-import {Route, Routes} from "react-router-dom";
-import {Main} from "./components/routes/Main/Main.jsx";
-import {Chat} from "./components/routes/Chat/Chat.jsx";
 import './App.scss'
+import io from "socket.io-client";
+import {ConfigProvider} from "antd";
+import Router from "./components/routes/Router.jsx";
+import {theme} from "./constants/theme.js";
 
-const ROUTES_MAP = [
-    {
-        path: '/',
-        component: <Main/>
-    },
-    {
-        path: '/chat',
-        component: <Chat/>
-    }]
+export const initSocket = () => io.connect(import.meta.env.VITE_WS_HOST)
 
 function App() {
-
     return (
-        <Routes>
-            {ROUTES_MAP.map(({path, component}) => <Route path={path} element={component}/>)}
-        </Routes>
+        <ConfigProvider theme={theme}>
+            <Router/>
+        </ConfigProvider>
     )
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Col, Form, Input, InputNumber, Row, Typography} from "antd";
+import {Button, Col, Form, Input, Row, Typography} from "antd";
 import {useNavigate} from "react-router-dom";
 import './main.css'
 import {CHAT} from "../../../constants/routes.js";
