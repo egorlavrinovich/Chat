@@ -1,3 +1,4 @@
+
 .chat-wallpaper {
   font-family: "Helvetica Neue", Helvetica, sans-serif;
   font-size: 15px;
@@ -67,7 +68,7 @@
   }
 }
 
-p {
+.msg {
   max-width: 255px;
   word-wrap: break-word;
   margin-bottom: 12px;
@@ -92,12 +93,43 @@ p {
 }
 
 .msg-block {
-  display: flex;
+  display: grid;
   line-height: normal;
   gap: 0.8vw;
+  word-break: break-all;
 
   .msg-time {
-    font-size: xx-small;
-    align-self: end;
+    line-height: 0;
+    font-size: smaller;
+    justify-self: right;
+  }
+
+  .msg-text {
+    font-size: medium;
+    min-width: 50px;
+  }
+}
+
+.user-msg {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.show-user-name {
+  font-weight: 600;
+  color: #0B93F6;
+  font-size: small;
+}
+
+.hide-user-name {
+  display: none;
+}
+
+@media screen and (max-width: 900px) {
+  .msg-block {
+    .msg-time {
+      line-height: normal;
+    }
   }
 }
