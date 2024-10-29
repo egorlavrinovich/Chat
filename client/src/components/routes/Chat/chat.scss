@@ -42,7 +42,8 @@
   }
 }
 
-.chat-wallpaper {
+.chat-wallpaper { //TODO перенести стили
+  position: relative;
   overflow-y: auto;
   padding-right: 2px;
 }

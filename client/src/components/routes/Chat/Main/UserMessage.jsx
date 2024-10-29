@@ -6,10 +6,10 @@ import clsx from 'clsx'
 const HOURS_AND_MINUTES = 'HH:mm'
 
 const UserMessage = ({msg}) => {
+    const {userName, message, date} = msg
     const [searchParams, _] = useSearchParams()
     const isItMe = (name) => Object.fromEntries(searchParams.entries())?.name === name
-
-    const {userName, message, date} = msg
+    
     return (
         <div className='user-msg'>
             <p className={clsx('msg', {}, [isItMe(userName) ? 'send' : 'receive'])}>

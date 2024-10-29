@@ -1,0 +1,32 @@
+.scroll-to-end {
+  height: 5vh;
+  width: 2vw;
+  position: fixed;
+  right: 18vw;
+  bottom: 11%;
+  opacity: 1;
+
+  animation: show 1s forwards;
+
+  :hover {
+    transition: .3s ease-in-out;
+    color: #86c3e8;
+  }
+
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .scroll-to-end {
+    right: 6vw;
+    bottom: 9%;
+  }
+}

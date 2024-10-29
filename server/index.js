@@ -21,8 +21,9 @@ server.listen(PORT, (error) => {
                 socket.emit('message', getMessages())
             })
 
-            socket.on('sendMessage', ({message, params, date}) => {
+            socket.on('sendMessage', ({message, params, date}, cb) => {
                 io.to(params?.room).emit('message', getMessages(message, params, date))
+                cb()
             })
 
             socket.on("disconnecting", (reason) => {
