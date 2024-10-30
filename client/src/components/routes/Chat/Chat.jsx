@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useSearchParams} from "react-router-dom";
 import './chat.scss'
-import {Col, Row, Spin} from "antd";
+import {message, Col, Row, Spin} from "antd";
 import {initSocket} from "../../../App.jsx";
 import UserMassageList from "./Main/UserMassageList.jsx";
 import Title from "./Title/Title.jsx";
@@ -13,6 +13,12 @@ const Chat = () => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const params = Object.fromEntries(searchParams.entries())
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const leaveRoom = (user) => messageApi.open({
+        type: 'warning',
+        content: `Пользователь ${user?.name} покинул чат`,
+    })
 
 
     useEffect(() => {
@@ -27,6 +33,7 @@ const Chat = () => {
             .on("connect", () => {
                 setLoading(false)
             })
+            .on('userLeaveChat', (user) => leaveRoom(user))
         return () => {
             socket.disconnect()
         }
@@ -37,13 +44,14 @@ const Chat = () => {
             <Row>
                 <Col lg={4} xs={1}/>
                 <Col lg={16} xs={22}>
-                    <Title params={params} data={data}/>
+                    <Title params={params} data={data} socket={socket}/>
                     <UserMassageList messages={data}/>
                     <Footer socket={socket} params={params}/>
                 </Col>
                 <Col lg={4} xs={1}/>
             </Row>
             {loading && <Spin fullscreen/>}
+            {contextHolder}
         </div>
     );
 };

@@ -16,9 +16,10 @@ const io = new Server(server, {
 server.listen(PORT, (error) => {
         io.on('connection', (socket) => {
 
-            socket.on('join', ({room}) => {
+            socket.on('join', ({name, room}) => {
                 socket.join(room)
                 socket.emit('message', getMessages())
+                socket.user = {name, room}
             })
 
             socket.on('sendMessage', ({message, params, date}, cb) => {
@@ -26,8 +27,9 @@ server.listen(PORT, (error) => {
                 cb()
             })
 
-            socket.on("disconnecting", (reason) => {
-                socket.emit('userLeaveChat',)
+            socket.on("disconnecting", () => {
+                io.to(socket?.user?.room).emit('userLeaveChat', socket.user)
+                socket.leave(socket?.user?.room)
             });
 
         });
