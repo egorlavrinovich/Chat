@@ -17,7 +17,12 @@ const Chat = () => {
 
     const leaveRoom = (user) => messageApi.open({
         type: 'warning',
-        content: `Пользователь ${user?.name} покинул чат`,
+        content: `Пользователь ${user?.userName} покинул чат`,
+    })
+
+    const connectToRoom = (user) => messageApi.open({
+        type: 'warning',
+        content: `Пользователь ${user} присоединился к чату`,
     })
 
 
@@ -32,6 +37,9 @@ const Chat = () => {
             })
             .on("connect", () => {
                 setLoading(false)
+            })
+            .on("userJoined", (user) => {
+                connectToRoom(user)
             })
             .on('userLeaveChat', (user) => leaveRoom(user))
         return () => {

@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {calculateUserCount} from "../../../../helpers/chat.js";
 
-const RoomName = ({title, data}) => {
-    const [userCount, setUserCount] = useState(1)
+const RoomName = ({title, socket}) => {
+    const [userCount, setUserCount] = useState(0)
 
     useEffect(() => {
-        setUserCount(calculateUserCount(data))
-    }, [data?.length])
+        socket.on('userCount', (users) => setUserCount(users?.length || 0))
+    }, [])
 
 
     return (

@@ -6,7 +6,7 @@ const Title = ({params, data, socket}) => {
     return (
         <div className='chat-header'>
             <BackBtn params={params} socket={socket}/>
-            <RoomName title={params?.room} data={data}/>
+            <RoomName title={params?.room} data={data} socket={socket}/>
         </div>
     );
 };

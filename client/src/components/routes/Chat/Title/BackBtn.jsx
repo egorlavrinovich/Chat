@@ -3,13 +3,10 @@ import {Button} from "antd";
 import {LeftOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
 
-const BackBtn = ({params, socket}) => {
+const BackBtn = () => {
     const navigate = useNavigate()
-    const {room} = params
 
-    const onHandleLeave = () => {
-        navigate('/')
-    }
+    const onHandleLeave = () => navigate('/')
 
     return (
         <div className='back-btn'>
