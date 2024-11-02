@@ -9,11 +9,11 @@ const SendMessage = ({socket, params}) => {
     const [form] = useForm()
     const userMessage = useWatch('userMsg', form);
 
-    const onFinish = ({userMsg}) => {
-        socket.emit('sendMessage', {
+    const onFinish = async ({userMsg}) => {
+        await socket.emit('sendMessage', {
             message: userMsg,
             date: Date.now(),
-            params
+            userName: params?.name
         }, _.debounce(scrollToLastMessage, 50))
         form.resetFields()
     }

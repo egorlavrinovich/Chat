@@ -1,10 +1,8 @@
 import {Server} from "socket.io";
 import express from 'express'
 import {createServer} from 'node:http';
-import {getMessages} from "./recieveMessages.js";
 import mongoose from "mongoose";
 import {router} from "./router/router.js";
-import axios from "axios";
 import 'dotenv/config'
 import RoomController from "./controller/room.js";
 
@@ -37,8 +35,8 @@ const startApp = async () => {
                         id: socket?.id
                     }))
 
-                    socket.on('sendMessage', ({message, params, date}, cb) => {
-                        io.to(params?.room).emit('message', getMessages(message, params, date))
+                    socket.on('sendMessage', async (message, cb) => {
+                        await roomController.sendMessage(message)
                         cb()
                     })
 

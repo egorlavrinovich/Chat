@@ -1,48 +1,68 @@
-import {chatRoomSchema} from "../models/chatRoom.js";
-import {getMessages} from "../recieveMessages.js";
+import {chatRoomSchema} from "../models/roomSchema.js";
+
+const buffer = {
+    room: {
+        messages: []
+    },
+    user: {}
+}
 
 class RoomController {
     constructor({io, socket}) {
         this.io = io
         this.socket = socket
-        this.room = []
     }
 
     async createRoom(user) {
         const {room: name} = user
         try {
             const room = await chatRoomSchema.findOne({name})
-            if (!room) await chatRoomSchema.create({name, users: [user]})
+            if (!room) await chatRoomSchema.create({name, users: [user], messages: []})
             else await chatRoomSchema.updateOne({name}, {$push: {users: user}})
-            return {...room, users: [...room?.users || [], user]}
+            return {...room, name, users: [...room?.users || [], user], messages: room?.messages || []}
         } catch (e) {
             return e
         }
     }
 
     async joinToRoom(user) {
-        const {room, userName} = user
-        this.room = await this.createRoom(user)
-        this.socket.join(room)
-        this.socket
-            .emit('message', getMessages())
-        this.io.to(room)
-            .emit('userCount', this.room?.users)
-        this.io.to(room)
-            .emit('userJoined', userName)
-        this.socket.user = user
+        try {
+            const {room, userName} = user
+            this.socket.join(room)
+            buffer.room = await this.createRoom(user)
+            this.io.to(room)
+                .emit('userCount', buffer.room?.users)
+            this.io.to(room)
+                .emit('userJoined', userName)
+            buffer.user = user
+            this.io.to(buffer.room?.name).emit('message', buffer.room?.messages)
+        } catch (e) {
+            console.log(e)
+        }
+
     }
 
-    async leaveRoom(user) {
+    async sendMessage(messages) {
         try {
-            const {room, id: userId} = user
-            const updatedUserList = this.room?.users?.filter(({id}) => id !== userId)
-            await chatRoomSchema.updateOne({name: room}, {$set: {users: updatedUserList}})
-            this.io.to(room).emit('userLeaveChat', user)
-            this.io.to(room).emit('userCount', updatedUserList)
-            this.socket.leave(room)
+            const {room, user} = buffer
+            await chatRoomSchema.updateOne({name: room?.name}, {$push: {messages, id: user?.id}})
+            room.messages = [...room.messages, messages]
+            this.io.to(room?.name).emit('message', room.messages)
         } catch (e) {
-            return e
+            console.log(e)
+        }
+    }
+
+    async leaveRoom() {
+        try {
+            const {room, user} = buffer
+            const updatedUserList = buffer.room?.users?.filter(({id}) => id !== user?.id)
+            await chatRoomSchema.updateOne({name: room?.name}, {$set: {users: updatedUserList}})
+            this.io.to(room?.name).emit('userLeaveChat', user)
+            this.io.to(room?.name).emit('userCount', updatedUserList)
+            this.socket.leave(room?.name)
+        } catch (e) {
+            console.log(e)
         }
     }
 }

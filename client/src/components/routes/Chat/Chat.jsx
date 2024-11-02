@@ -29,18 +29,10 @@ const Chat = () => {
     useEffect(() => {
         socket
             .emit('join', params)
-            .on('message', (data) => {
-                setData(data)
-            })
-            .on("disconnect", () => {
-                setLoading(true)
-            })
-            .on("connect", () => {
-                setLoading(false)
-            })
-            .on("userJoined", (user) => {
-                connectToRoom(user)
-            })
+            .on('message', (data) => setData(data))
+            .on("disconnect", () => setLoading(true))
+            .on("connect", () => setLoading(false))
+            .on("userJoined", (user) => connectToRoom(user))
             .on('userLeaveChat', (user) => leaveRoom(user))
         return () => {
             socket.disconnect()

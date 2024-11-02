@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import {messageSchema} from "./messageSchema.js";
 
 const roomSchema = new mongoose.Schema({
     name: {
@@ -8,6 +9,11 @@ const roomSchema = new mongoose.Schema({
     users: {
         type: Array,
         required: true
+    },
+    messages: {
+        type: [messageSchema],
+        required: true,
+        default: []
     }
 })
 
