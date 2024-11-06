@@ -60,6 +60,17 @@ class RoomController {
         }
     }
 
+    async deleteMessages(removeItemsIds) {
+        try {
+            const {room} = buffer
+            const resultMessages = await chatRoomSchema.findOneAndUpdate({name: room?.name}, {$pull: {messages: {_id: removeItemsIds}}}, {new: true})
+            room.messages = resultMessages?.messages
+            this.io.to(room?.name).emit('message', room.messages)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     async leaveRoom() {
         try {
             const {room, user} = buffer

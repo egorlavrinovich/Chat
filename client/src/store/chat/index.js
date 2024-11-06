@@ -16,5 +16,6 @@ export const useChatStore = create(devtools((set) => ({
             isEditable: !!filteredAllocatedMessages?.length,
             allocatedMessages: filteredAllocatedMessages
         })
-    })
+    }),
+    resetAllocatedMessages: () => set({}, true)
 })))

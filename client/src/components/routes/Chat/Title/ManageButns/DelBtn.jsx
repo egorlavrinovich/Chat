@@ -1,7 +1,8 @@
 import React from 'react';
-import {checkDevice} from "../../../../../helpers/chat.js";
+import {checkDevice, deleteMessagesInfo} from "../../../../../helpers/chat.js";
 import {DeleteOutlined} from "@ant-design/icons";
-import {Button} from "antd";
+import {Button, message} from "antd";
+import {useChatStore} from "../../../../../store/chat/index.js";
 
 const mobileBtnProps = {
     shape: 'circle',
@@ -17,15 +18,25 @@ const defaultBtnProps = {
 }
 
 const wideScreenProps = {
-    variant: "solid",
-    children: 'Удалить'
+    variant: "outlined",
+    children: 'Удалить',
+    style: {
+        backgroundColor: 'rgba(238,5,5,0.003)'
+    }
 }
 
-const DelBtn = ({isShow}) => {
+const DelBtn = ({socket}) => {
+    const [messageApi, contextHolder] = message.useMessage();
+    const {allocatedMessages, resetAllocatedMessages, isEditable} = useChatStore((state) => state)
     const isItMobile = checkDevice(768)
     const otherProps = isItMobile ? mobileBtnProps : wideScreenProps
 
-    return isShow && <Button {...defaultBtnProps} {...otherProps}/>
+    const onHandleDelete = () => {
+        socket.emit('deleteMessages', allocatedMessages, () => deleteMessagesInfo({context: messageApi}))
+        resetAllocatedMessages()
+    }
+
+    return <>{isEditable && <Button onClick={onHandleDelete} {...defaultBtnProps} {...otherProps}/>}{contextHolder}</>
 };
 
 export default DelBtn;

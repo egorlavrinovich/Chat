@@ -26,3 +26,8 @@ export const connectToRoom = ({context, user}) => context.open({
     type: 'warning',
     content: `Пользователь ${user} присоединился к чату`,
 })
+
+export const deleteMessagesInfo = ({context}) => context.open({
+    type: 'warning',
+    content: `Сообщения удалены`,
+})

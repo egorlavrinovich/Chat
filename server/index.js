@@ -40,6 +40,11 @@ const startApp = async () => {
                         cb()
                     })
 
+                    socket.on('deleteMessages', async (messageIds, cb) => {
+                        await roomController.deleteMessages(messageIds)
+                        cb()
+                    })
+
                     socket.on("disconnecting", () => roomController.leaveRoom(socket?.user));
 
                 });

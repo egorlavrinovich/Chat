@@ -11,7 +11,7 @@ const Title = ({params, data, socket}) => {
         <div className='chat-header'>
             <BackBtn params={params} socket={socket}/>
             <RoomName title={params?.room} data={data} socket={socket}/>
-            <DelBtn isShow={isEditable}/>
+            <DelBtn isShow={isEditable} socket={socket}/>
         </div>
     );
 };
