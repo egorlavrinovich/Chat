@@ -15,3 +15,14 @@ export const scrollToLastMessage = () => {
     const userMessageListNode = document.getElementById(USER_LIST_ID)
     userMessageListNode?.scrollTo(0, userMessageListNode?.scrollHeight)
 }
+export const checkDevice = (width) => window.matchMedia(`(max-width: ${width}px)`).matches
+
+export const leaveRoom = ({context, user}) => context.open({
+    type: 'warning',
+    content: `Пользователь ${user?.userName} покинул чат`,
+})
+
+export const connectToRoom = ({context, user}) => context.open({
+    type: 'warning',
+    content: `Пользователь ${user} присоединился к чату`,
+})

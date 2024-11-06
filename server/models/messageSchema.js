@@ -13,7 +13,7 @@ export const messageSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    id: {
+    userId: {
         type: String,
         required: true
     }

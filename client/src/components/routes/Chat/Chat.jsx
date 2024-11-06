@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {useSearchParams} from "react-router-dom";
 import './chat.scss'
-import {message, Col, Row, Spin} from "antd";
+import {Col, message, Row, Spin} from "antd";
 import {initSocket} from "../../../App.jsx";
 import UserMassageList from "./Main/UserMassageList.jsx";
 import Title from "./Title/Title.jsx";
 import Footer from "./Footer/Footer.jsx";
+import {connectToRoom, leaveRoom} from "../../../helpers/chat.js";
+import {useChatStore} from "../../../store/chat/index.js";
 
 const Chat = () => {
     const socket = initSocket()
@@ -14,17 +16,7 @@ const Chat = () => {
     const [loading, setLoading] = useState(false)
     const params = Object.fromEntries(searchParams.entries())
     const [messageApi, contextHolder] = message.useMessage();
-
-    const leaveRoom = (user) => messageApi.open({
-        type: 'warning',
-        content: `Пользователь ${user?.userName} покинул чат`,
-    })
-
-    const connectToRoom = (user) => messageApi.open({
-        type: 'warning',
-        content: `Пользователь ${user} присоединился к чату`,
-    })
-
+    const allocatedMessages = useChatStore((state) => state.allocatedMessages)
 
     useEffect(() => {
         socket
@@ -32,19 +24,20 @@ const Chat = () => {
             .on('message', (data) => setData(data))
             .on("disconnect", () => setLoading(true))
             .on("connect", () => setLoading(false))
-            .on("userJoined", (user) => connectToRoom(user))
-            .on('userLeaveChat', (user) => leaveRoom(user))
+            .on("userJoined", (user) => connectToRoom({user, context: messageApi}))
+            .on('userLeaveChat', (user) => leaveRoom({user, context: messageApi}))
         return () => {
             socket.disconnect()
         }
     }, [])
+
 
     return (
         <div className='chat-wrapper'>
             <Row>
                 <Col lg={4} xs={1}/>
                 <Col lg={16} xs={22}>
-                    <Title params={params} data={data} socket={socket}/>
+                    <Title params={params} data={data} socket={socket} allocatedMessages={allocatedMessages}/>
                     <UserMassageList messages={data}/>
                     <Footer socket={socket} params={params}/>
                 </Col>

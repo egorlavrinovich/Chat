@@ -45,8 +45,15 @@ class RoomController {
     async sendMessage(messages) {
         try {
             const {room, user} = buffer
-            await chatRoomSchema.updateOne({name: room?.name}, {$push: {messages, id: user?.id}})
-            room.messages = [...room.messages, messages]
+            const resultMessages = await chatRoomSchema.findOneAndUpdate({name: room?.name}, {
+                $push: {
+                    messages: {
+                        ...messages,
+                        userId: user?.id //TODO when authorize will done, change userId
+                    }
+                }
+            }, {new: true})
+            room.messages = resultMessages?.messages
             this.io.to(room?.name).emit('message', room.messages)
         } catch (e) {
             console.log(e)

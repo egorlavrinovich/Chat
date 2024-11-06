@@ -15,6 +15,17 @@
 
 }
 
+.user-msg {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 5px solid rgba(255, 215, 0, 0);
+}
+
+.allocate {
+  background-color: #0a56ef30;
+}
+
 @keyframes show {
   0% {
     opacity: 0;

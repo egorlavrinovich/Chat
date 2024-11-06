@@ -70,9 +70,9 @@
 }
 
 .msg {
+  margin: 0;
   max-width: 255px;
   word-wrap: break-word;
-  margin-bottom: 12px;
   line-height: 24px;
   position: relative;
   padding: 8px 15px;
@@ -111,12 +111,6 @@
   }
 }
 
-.user-msg {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
 .show-user-name {
   font-weight: 600;
   color: #0B93F6;
@@ -125,6 +119,13 @@
 
 .hide-user-name {
   display: none;
+}
+
+.del-msg-btn {
+  position: absolute;
+  right: 3vw;
+  height: 5vh;
+
 }
 
 @media screen and (max-width: 900px) {

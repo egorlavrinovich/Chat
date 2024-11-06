@@ -14,9 +14,10 @@ const UserMassageList = ({messages}) => {
     const [isShowScrollBtn, ref] = UseIsShowScrollBtn(messages)
 
     return (
-        <div ref={ref} id={USER_LIST_ID} className='chat-wallpaper' style={{height: heightBlockContent}}>
-            {messages?.map((msg) => <UserMessage key={msg?.date} msg={msg}/>
-            )}
+        <div ref={ref} id={USER_LIST_ID}
+             className='chat-wallpaper'
+             style={{height: heightBlockContent}}>
+            {messages?.map((msg) => <UserMessage key={msg?.date} msg={msg}/>)}
             {isShowScrollBtn && <Button
                 className={'scroll-to-end'}
                 shape="circle"
