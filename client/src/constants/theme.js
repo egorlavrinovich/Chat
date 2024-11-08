@@ -6,7 +6,7 @@ export const theme = {
     },
     components: {
         Form: {
-            itemMarginBottom: '12px'
+            itemMarginBottom: '12px',
         },
         Input: {
             activeBg: 'rgba(255,255,255,0.15)',

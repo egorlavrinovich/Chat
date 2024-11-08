@@ -1,12 +1,12 @@
 import React from 'react';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import {Main} from "./Main/Main.jsx";
+import {Auth} from "./Main/Auth.jsx";
 import {Chat} from "./Chat/Chat.jsx";
 
 const ROUTES_MAP = [
     {
         path: '/',
-        component: <Main/>
+        component: <Auth/>
     },
     {
         path: '/chat',

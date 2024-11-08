@@ -1,12 +1,26 @@
 .main-title {
     color: rgb(35, 35, 222);
-    padding-top: 10px;
     display: flex;
     justify-content: center;
     font: monospace;
+    margin: 0;
 }
 
 .main-btn {
     width: 100%;
     background-color: rgb(113, 121, 224);
+    margin-top: 2%;
+}
+
+.footer-auth-dialog-window {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title-divider {
+    margin: 5px;
+}
+
+.auth-form-item {
+    margin: 0;
 }
