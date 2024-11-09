@@ -1,9 +1,11 @@
 import {rules} from "../../../constants/rules.js";
+import {LOGIN, REGISTRATION} from "../../../constants/API.js";
 
 const {REQUIRED, EMAIL, CONFIRM_PASSWORD, PASSWORD_MIN_LENGTH} = rules
 
 export const authFormConfig = ({handleSetTypeAuth}) => ({
     title: 'Вход',
+    routePath: LOGIN,
     fields: [
         {
             name: 'email',
@@ -38,6 +40,7 @@ export const authFormConfig = ({handleSetTypeAuth}) => ({
 
 export const registrationFormConfig = ({handleSetTypeAuth}) => ({
     title: 'Регистрация',
+    routePath: REGISTRATION,
     fields: [
         {
             name: 'name',

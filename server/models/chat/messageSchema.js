@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export const messageSchema = new mongoose.Schema({
+export const messageSchema = new mongoose.Schema({ // подумать про userId и userName
     message: {
         type: String,
         required: true

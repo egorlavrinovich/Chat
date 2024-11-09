@@ -1,0 +1,1 @@
+export const EXPIRE_TOKEN_TIME = '2h'

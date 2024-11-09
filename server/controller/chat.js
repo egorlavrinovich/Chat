@@ -1,4 +1,4 @@
-import {chatRoomSchema} from "../models/roomSchema.js";
+import {chatRoomSchema} from "../models/chat/roomSchema.js";
 
 const buffer = {
     room: {

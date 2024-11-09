@@ -8,13 +8,13 @@ const roomSchema = new mongoose.Schema({
     },
     users: {
         type: Array,
-        required: true
+        required: true,
+        ref: 'Users'
     },
     messages: {
         type: [messageSchema],
-        required: true,
         default: []
     }
 })
 
-export const chatRoomSchema = mongoose.model("rooms", roomSchema) // name - название коллекции в бд куда идёт запись
+export const chatRoomSchema = mongoose.model("Rooms", roomSchema) // name - название коллекции в бд куда идёт запись

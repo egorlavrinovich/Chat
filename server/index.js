@@ -4,7 +4,8 @@ import {createServer} from 'node:http';
 import mongoose from "mongoose";
 import {router} from "./router/router.js";
 import 'dotenv/config'
-import RoomController from "./controller/room.js";
+import RoomController from "./controller/chat.js";
+import cors from 'cors'
 
 const DB_URL = process.env.MONGODB_URL
 
@@ -18,7 +19,7 @@ const io = new Server(server, {
     },
     connectionStateRecovery: {}
 });
-
+app.use(cors())
 app.use(express.json());
 app.use("", router);
 
